@@ -1,0 +1,56 @@
+
+
+<div *ngIf="pokemon" class="mb-4 p-8 flex items-center justify-center">
+  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+      <ng-template pTemplate="header">
+          <img alt="Card" class="w-full" [src]="pokemon.sprites.front_default" />
+      </ng-template>
+      <ng-template pTemplate="title"> {{ pokemon.name }}</ng-template>
+      <ng-template pTemplate="subtitle"> Card subtitle </ng-template>
+      <p-button label="Hear Cry" (click)="playAudio()" />
+      <p> {{ pokemon.order }}</p>
+      <div>
+        <h2 class="text-2xl font-semibold mb-4 dark:text-white">Base Stats</h2>
+        <div class="space-y-3">
+          <div
+            *ngFor="let stat of pokemon.stats"
+            class="flex items-center space-x-4"
+          >
+            <div class="w-1/3 capitalize dark:text-gray-300">
+              {{ stat.stat.name.replace('-', ' ') }}
+            </div>
+            <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
+              <div
+                class="h-full rounded-full"
+                [ngStyle]="{
+                  'width': (stat.base_stat > 100 ? 100 : stat.base_stat) + '%',
+                  'background-color': stat.base_stat > 80 ? '#10B981' : stat.base_stat > 50 ? '#F59E0B' : '#EF4444'
+                }"
+              ></div>
+            </div>
+            <div class="w-12 text-right dark:text-gray-300">
+              {{ stat.base_stat }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="rounded-lg bg-white pt-2">
+        <p class="text-2xl font-semibold  dark:text-black"> test </p> -->
+
+
+
+      <div
+            *ngFor="let evo of pokemonChain"
+            class="flex items-center space-x-4"
+            (click)="selectChain(evo.name)"
+          >
+          <div class="card flex justify-center pt-2">
+            <p-button [label]="evo.name"  />
+        </div>
+
+
+          </div>
+  </p-card>
+</div>
+

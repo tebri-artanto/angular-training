@@ -1,5 +1,6 @@
-import { PokemonService } from './../../services/pokemon.service';
+
 import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, NgModule } from '@angular/core';
+import { PokemonService } from '../../../services/pokemon.service';
 
 @Component({
   selector: 'app-pokemon-list',
