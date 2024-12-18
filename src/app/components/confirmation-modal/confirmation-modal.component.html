@@ -1,0 +1,62 @@
+<!-- <p-confirmDialog
+  [style]="dialogStyle"
+  [breakpoints]="{'768px': '90vw'}"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [closable]="false"
+>
+  <ng-template pConfirmationContent>
+    <div class="flex flex-col items-center p-4 text-center">
+      <div class="text-xl font-bold mb-4">{{ title }}</div>
+      <div class="text-gray-600 mb-6">{{ message }}</div>
+    </div>
+  </ng-template>
+</p-confirmDialog> -->
+<!--
+<div class="card flex justify-center gap-2">
+  <p-toast />
+  <p-confirmdialog />
+</div> -->
+
+<!-- <p-confirmDialog
+            [style]="dialogStyle"
+            [header]="header"
+            [message]="message"
+            [icon]="icon"
+            [acceptLabel]="acceptLabel"
+            [rejectLabel]="rejectLabel"
+            [acceptButtonStyleClass]="acceptButtonStyleClass"
+            [rejectButtonStyleClass]="rejectButtonStyleClass"
+            (accept)="onAccept()"
+            (reject)="onReject()">
+            <ng-template pTemplate="footer">
+                <button
+                    pButton
+                    type="button"
+                    [label]="rejectLabel || 'Cancel'"
+                    icon="pi pi-times"
+                    class="p-button-text p-button-secondary"
+                    (click)="onReject()">
+                </button>
+                <button
+                    pButton
+                    type="button"
+                    [label]="acceptLabel || 'Confirm'"
+                    icon="pi pi-check"
+                    [class]="acceptButtonStyleClass"
+                    (click)="onAccept()">
+                </button>
+            </ng-template>
+        </p-confirmDialog> -->
+
+        <p-toast />
+    <p-confirmDialog>
+        <ng-template #message let-message>
+            <div class="flex flex-col items-center w-full gap-4 border-b border-surface-200 dark:border-surface-700">
+                <i [ngClass]="message.icon" class="!text-6xl text-primary-500"></i>
+                <p>{{ message.message }}</p>
+            </div>
+        </ng-template>
+    </p-confirmDialog>
+    <p-button (click)="cancel.emit()" label="Save" severity="secondary"/>
+    <p-button (click)="confirm.emit()" label="delete" severity="danger"/>

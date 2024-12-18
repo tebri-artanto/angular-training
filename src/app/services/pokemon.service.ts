@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +9,8 @@ import axios from 'axios';
 export class PokemonService {
   private apiUrl = 'https://pokeapi.co/api/v2/pokemon';
   private apiSpecies = "https://pokeapi.co/api/v2/pokemon-species";
-  private apiAudio = "";
 
-  constructor() {
-    console.log('PokemonService: Constructor called');
-  }
+  constructor(private http: HttpClient) {}
 
   async getPokemonList(limit: number = 20) {
     const response = await axios.get(`${this.apiUrl}?limit=${limit}`);
@@ -20,47 +19,44 @@ export class PokemonService {
 
   async getPokemonDetails(url: string) {
     const response = await axios.get(url);
-    console.log(response.data);
     return response.data;
   }
 
   async getPokemonByName(name: string){
     const response = await axios.get(`${this.apiUrl}/${name}`);
-    console.log(response.data);
     return response.data;
   }
 
   async getPokemonSpecies(name: string){
     const response = await axios.get(`${this.apiSpecies}/${name}`);
-    console.log(response);
     return response.data;
   }
 
   async getPokemonEvolutionChain(url: string){
     const response = await axios.get(url);
     const chain = response.data.chain;
-    console.log(chain);
     return this.parsePokemonChain(chain);
   }
 
-  parsePokemonChain (chain: any){
-    const evolutions = [];
-    let current = chain;
+  parsePokemonChain(chain: any, evolutions: any[] = []): any[] {
+    // Recursive method to handle more complex evolution chains
+    if (!chain) return evolutions;
 
-    while(current){
-      evolutions.push({
-        name: current.species.name,
-        url: current.species.url
-      });
-      current = current.evolves_to[0];
+    evolutions.push({
+      name: chain.species.name,
+      url: chain.species.url
+    });
+
+    if (chain.evolves_to && chain.evolves_to.length > 0) {
+      // If multiple evolutions exist, handle them
+      return this.parsePokemonChain(chain.evolves_to[0], evolutions);
     }
+
     return evolutions;
-
   }
 
-  getAudioLink(url: string){
-
-  }
+  //coba table
 
 }
+
 

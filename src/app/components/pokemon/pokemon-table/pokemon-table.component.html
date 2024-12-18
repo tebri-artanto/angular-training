@@ -1,0 +1,60 @@
+
+
+<div class="container mx-auto p-4">
+
+  <app-confirmation-modal #confirmDialog />
+  <div class="bg-slate-600 rounded-lg shadow-lg p-6">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-white ">History List</h1>
+
+    </div>
+
+    <div class="flex justify-center">
+      <p-table
+        [value]="formSubmissions"
+        [paginator]="true"
+        [rows]="10"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        styleClass="w-full pt-5"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="p-4 bg-gray-500 font-bold text-left ">ID</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Buy Option</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Email</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">First Name</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Last Name</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Phone</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Phone Country Code</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Edit</th>
+            <th class="p-4 bg-gray-500 font-bold text-left ">Delete</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-formSubmission>
+          <tr class="border-b">
+            <td class="p-4">{{ formSubmission.id }}</td>
+            <td class="p-4">{{ formSubmission.buyOption }}</td>
+            <td class="p-4">{{ formSubmission.email }}</td>
+            <td class="p-4">{{ formSubmission.firstName }}</td>
+            <td class="p-4">{{ formSubmission.lastName }}</td>
+            <td class="p-4">{{ formSubmission.phone }}</td>
+            <td class="p-4">{{ formSubmission.phoneCountryCode }}</td>
+            <td>
+              <p-button label="Edit" [rounded]="true" severity="contrast" (onClick)="editHistory(formSubmission.id)"/>
+            </td>
+            <td>
+              <p-button label="Delete" [rounded]="true" severity="danger" (onClick)="confirm(formSubmission.id)"/>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+
+
+  </div>
+
+
+</div>
+

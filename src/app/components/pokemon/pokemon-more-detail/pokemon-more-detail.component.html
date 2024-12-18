@@ -1,56 +1,100 @@
+<div class="surface-section px-4 py-8">
+  <app-buy-pokemon *ngIf="selectedBuy" [pokemon]="selectedBuy" [pokemonEvolutions]="pokemonEvolutions"></app-buy-pokemon>
+  <div class="card">
+    <p-card *ngIf="pokemon" styleClass="w-full max-w-screen-md mx-auto">
+      <!-- Pokemon Header -->
+      <div class="flex flex-column align-items-center mb-4">
+        <img
+          [src]="pokemon.sprites.front_default"
+          [alt]="pokemon.name"
+          class="w-full max-w-15rem" />
+        <div class="flex align-items-center gap-3 mt-3">
+          <h2 class="text-3xl font-bold capitalize m-0">{{ pokemon.name }}</h2>
 
-
-<div *ngIf="pokemon" class="mb-4 p-8 flex items-center justify-center">
-  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-      <ng-template pTemplate="header">
-          <img alt="Card" class="w-full" [src]="pokemon.sprites.front_default" />
-      </ng-template>
-      <ng-template pTemplate="title"> {{ pokemon.name }}</ng-template>
-      <ng-template pTemplate="subtitle"> Card subtitle </ng-template>
-      <p-button label="Hear Cry" (click)="playAudio()" />
-      <p> {{ pokemon.order }}</p>
-      <div>
-        <h2 class="text-2xl font-semibold mb-4 dark:text-white">Base Stats</h2>
-        <div class="space-y-3">
-          <div
-            *ngFor="let stat of pokemon.stats"
-            class="flex items-center space-x-4"
-          >
-            <div class="w-1/3 capitalize dark:text-gray-300">
-              {{ stat.stat.name.replace('-', ' ') }}
-            </div>
-            <div class="flex-grow bg-gray-200 dark:bg-gray-700 rounded-full h-4">
-              <div
-                class="h-full rounded-full"
-                [ngStyle]="{
-                  'width': (stat.base_stat > 100 ? 100 : stat.base_stat) + '%',
-                  'background-color': stat.base_stat > 80 ? '#10B981' : stat.base_stat > 50 ? '#F59E0B' : '#EF4444'
-                }"
-              ></div>
-            </div>
-            <div class="w-12 text-right dark:text-gray-300">
-              {{ stat.base_stat }}
-            </div>
-          </div>
+          <p class="text-color-secondary">Pokedex #{{ pokemon.order }}</p>
         </div>
       </div>
+      <p-button
+        (click)="playAudio()"
+        label="Play cry"
+        styleClass="mb-4"></p-button>
 
-      <!-- <div class="rounded-lg bg-white pt-2">
-        <p class="text-2xl font-semibold  dark:text-black"> test </p> -->
-
-
-
-      <div
-            *ngFor="let evo of pokemonChain"
-            class="flex items-center space-x-4"
-            (click)="selectChain(evo.name)"
-          >
-          <div class="card flex justify-center pt-2">
-            <p-button [label]="evo.name"  />
-        </div>
-
-
+      <!-- Base Stats -->
+      <div class="mb-5">
+        <p-panel header="Base Stats" [toggleable]="true">
+          <div class="grid">
+            <div *ngFor="let stat of pokemon.stats" class="col-12 mb-2">
+              <div class="flex justify-content-between align-items-center">
+                <span class="text-900 font-medium capitalize">
+                  {{ stat.stat.name.replace("-", " ") }}
+                </span>
+                <span class="text-900">{{ stat.base_stat }}</span>
+              </div>
+              <p-progressbar
+                [value]="stat.base_stat > 100 ? 100 : stat.base_stat"
+                [color]="getStatColor(stat.base_stat)"></p-progressbar>
+            </div>
           </div>
-  </p-card>
-</div>
+        </p-panel>
+      </div>
 
+      <!-- Evolution Chain -->
+      <div *ngIf="pokemonEvolutions.length > 0">
+        <p-panel header="Evolution Chain" [toggleable]="true">
+          <div
+            class="flex justify-content-center align-items-center flex-wrap gap-4">
+            <ng-container
+              *ngFor="let evolution of pokemonEvolutions; let i = index">
+              <div class="text-center">
+                <p-card
+                  [header]="evolution.name"
+                  styleClass="w-15rem cursor-pointer hover:surface-hover transition-all"
+                  (click)="navigateToEvolution(evolution.name)">
+                  <ng-template pTemplate="header">
+                    <img
+                      *ngIf="evolution.image"
+                      [src]="evolution.image"
+                      [alt]="evolution.name"
+                      class="w-full" />
+                  </ng-template>
+                  <p class="text-center capitalize">{{ evolution.name }}</p>
+                </p-card>
+
+                <!-- Evolution Arrow -->
+                <div *ngIf="i < pokemonEvolutions.length - 1" class="my-3">
+                  <i class="pi pi-arrow-down text-2xl text-color-secondary"></i>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </p-panel>
+      </div>
+
+      <div class="card flex justify-center">
+        <p-button
+          styleClass="mt-4"
+          label="Buy Card"
+          (click)="selectBuy(pokemon.name)"></p-button>
+      </div>
+    </p-card>
+
+    <!-- <div class="card flex justify-center">
+      <p-drawer header="Drawer" [(visible)]="visible" styleClass="!w-full md:!w-50 lg:!w-[30rem]">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat.
+            </p>
+        </p-drawer>
+        <p-button (click)="visible = true" icon="pi pi-arrow-right" />
+    </div> -->
+
+
+
+    <!-- Loading Indicator -->
+
+
+    <p-progressspinner
+      *ngIf="!pokemon"
+      styleClass="w-full h-30rem flex justify-content-center align-items-center"></p-progressspinner>
+  </div>
+</div>

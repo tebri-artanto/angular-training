@@ -6,7 +6,7 @@
     </div>
 
     <div class="mb-6 flex space-x-4">
-      <input type="text" [(ngModel)]="filter" (ngModelChange)="applyFilter()" 
+      <input type="text" [(ngModel)]="filter" (ngModelChange)="applyFilter()"
         class="flex-grow px-4 py-2 border  rounded-md  ">
 
       <select [(ngModel)]="selectedElement" (ngModelChange)="applyFilter()" class="px-4 py-2 border  rounded-md  ">
@@ -48,4 +48,5 @@
   </div>
 
   <app-pokemon-detail *ngIf="selectedPokemon" [pokemon]="selectedPokemon"></app-pokemon-detail>
+  
 </div>
