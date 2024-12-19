@@ -1,0 +1,58 @@
+
+
+<div class=" mx-auto p-6 w-full">
+  <div class="bg-gray-600 rounded-lg shadow-lg p-6 w-full">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-200 ">Cart</h1>
+
+    </div>
+
+    <div class="flex gap-4 mt-1">
+
+      <p-button label="Clear" severity="danger" (click)="clearCart()"/>
+      <p-button label="CheckOut" (click)="logout()"/>
+  </div>
+
+
+
+    <div class="flex justify-start">
+
+      <div  *ngIf="(cartItems$ | async)?.length; else emptyCart" ></div>
+      <div class="mb-4 p-8 flex items-center justify-center">
+        <p-card [style]="{ width: '25rem', overflow: 'hidden', }" *ngFor="let item of cartItems$ | async"
+        styleClass="m-4 bg-gray-100"
+        >
+
+            <ng-template pTemplate="title">
+              <h3 class=" text-gray-800"> {{ item.pokemon.name | uppercase }}</h3>
+
+
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+              <h3 class="text-gray-800"> Quantity:
+                 {{ item.quantity }} </h3> </ng-template>
+
+            <ng-template pTemplate="footer">
+                <div class="flex gap-4 mt-1">
+
+                    <p-button label="Remove" severity="danger" class="w-full" styleClass="w-full" (click)="removeItem(item.pokemon.name)"/>
+                </div>
+            </ng-template>
+        </p-card>
+      </div>
+
+      <ng-template #emptyCart>
+        <p class="text-gray-500">Your cart is empty.</p>
+      </ng-template>
+
+    </div>
+
+
+
+  </div>
+
+
+</div>
+
+
+

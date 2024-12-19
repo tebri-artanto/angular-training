@@ -30,10 +30,10 @@
           ></p-dropdown> -->
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 bg">
           <p-card *ngFor="let pokemon of paginatedPokemon"
                   (click)="selectPokemon(pokemon.url)"
-                  class="cursor-pointer transform transition-transform hover:scale-105"
+                  styleClass="cursor-pointer transform transition-transform hover:scale-105 bg-gray-300"
                   [style]="{'min-width': '100%'}">
             <ng-template pTemplate="header">
               <img [src]="pokemon.image" [alt]="pokemon.name" class="w-24 h-24 mx-auto">

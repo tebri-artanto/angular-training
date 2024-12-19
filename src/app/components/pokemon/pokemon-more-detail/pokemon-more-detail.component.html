@@ -1,6 +1,7 @@
 <div class="surface-section px-4 py-8">
   <p-toast />
   <!-- <app-buy-pokemon *ngIf="selectedBuy" [pokemon]="selectedBuy" [pokemonEvolutions]="pokemonEvolutions" (cancel)="closeModal()" (confirm)="succesToast()"></app-buy-pokemon> -->
+  <app-buy-pokemon *ngIf="selectedBuy" [pokemon]="selectedBuy" [pokemonEvolutions]="pokemonEvolutions" ></app-buy-pokemon>
   <div class="card">
     <p-card *ngIf="pokemon" styleClass="w-full max-w-screen-md mx-auto">
       <!-- Pokemon Header -->
@@ -73,10 +74,16 @@
 
       <div class="card flex justify-center">
         <p-button
-          styleClass="mt-4"
+          styleClass="mt-4 mr-3"
           label="Buy Card"
           (click)="selectBuy(pokemon.name)"></p-button>
+          <p-button
+          styleClass="mt-4 "
+          label="Add to Cart"
+          (click)="addToCart(pokemon)"
+          severity="warn"></p-button>
       </div>
+
     </p-card>
 
     <!-- <div class="card flex justify-center">

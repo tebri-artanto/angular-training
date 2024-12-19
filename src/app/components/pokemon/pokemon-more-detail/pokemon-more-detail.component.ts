@@ -2,6 +2,8 @@ import { Component, Input,  OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../../../services/pokemon.service';
 import { MessageService } from 'primeng/api';
+import { Store } from '@ngrx/store';
+import { addToCart } from '../../../state/cart/cart.actions';
 interface PokemonEvolution {
   name: string;
   url: string;
@@ -15,7 +17,7 @@ interface PokemonEvolution {
   standalone: false,
 })
 export class PokemonMoreDetailComponent implements OnInit {
-  pokemon: any;
+  pokemon: any = null;
   pokemonSpecies: any;
   pokemonEvolutions: PokemonEvolution[] = [];
 
@@ -23,7 +25,8 @@ export class PokemonMoreDetailComponent implements OnInit {
     private pokemonService: PokemonService,
     private route: ActivatedRoute,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private store: Store
   ) {}
 
   async ngOnInit() {
@@ -64,7 +67,7 @@ export class PokemonMoreDetailComponent implements OnInit {
   }
 
   navigateToEvolution(name: string) {
-    this.router.navigate(['/pokemon-detail', name]);
+    this.router.navigate(['pokemon/pokemon-detail', name]);
   }
 
   playAudio() {
@@ -105,6 +108,12 @@ export class PokemonMoreDetailComponent implements OnInit {
   async selectBuy(name: string) {
     this.selectedBuy = name;
     console.log(this.selectedBuy);
+  }
+
+  addToCart(pokemon: any): void {
+    const cartItem = { pokemon, quantity: 1 };
+    alert(`Pokemon ${cartItem.pokemon.name} has been added to your cart!`);
+    this.store.dispatch(addToCart(cartItem));
   }
 
 }

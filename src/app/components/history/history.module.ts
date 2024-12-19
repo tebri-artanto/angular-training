@@ -1,3 +1,6 @@
+
+
+
 import { TextareaModule } from 'primeng/textarea';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,31 +22,19 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { SelectModule } from 'primeng/select';
 import { InputNumberModule } from 'primeng/inputnumber'
 import { DrawerModule } from 'primeng/drawer';
-
-
-
-import { PokemonDetailComponent } from './pokemon-detail/pokemon-detail.component';
-import { PokemonListComponent } from './pokemon-list/pokemon-list.component';
 import { PokemonService } from '../../services/pokemon.service';
-import { PokemonMoreDetailComponent } from './pokemon-more-detail/pokemon-more-detail.component';
 import { RealtimeDatabaseService } from '../../services/realtime-database.service';
-import { BuyPokemonComponent } from './buy-pokemon/buy-pokemon.component';
-import { PokemonTableComponent } from './pokemon-table/pokemon-table.component';
 import { TableModule } from 'primeng/table';
-import { EditHistoryComponent } from './edit-history/edit-history.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
-import { PokemonRoutingModule } from './pokemon-routing.module';
+
+import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   declarations: [
-    PokemonDetailComponent,
-    PokemonListComponent,
-    PokemonMoreDetailComponent,
-    BuyPokemonComponent,
-    PokemonTableComponent,
-    EditHistoryComponent,
-    ConfirmationModalComponent
+    CartComponent,
+    CheckoutComponent,
   ],
   imports: [
     CommonModule,
@@ -67,18 +58,12 @@ import { PokemonRoutingModule } from './pokemon-routing.module';
     DrawerModule,
     TableModule,
     ConfirmDialogModule,
-    PokemonRoutingModule
 
   ],
-  
+
   exports: [
-    PokemonDetailComponent,
-    PokemonListComponent,
-    PokemonMoreDetailComponent,
-    BuyPokemonComponent,
-    PokemonTableComponent,
-    EditHistoryComponent,
-    ConfirmationModalComponent
+    CartComponent,
   ],
 })
-export class PokemonModule { }
+
+export class HistoryModule { }

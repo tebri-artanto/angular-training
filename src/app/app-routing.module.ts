@@ -16,6 +16,8 @@ import { AuthGuards } from './guards/auth.guard';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { CanDeactiveService } from './guards/can-deactive.guard';
+import { CartComponent } from './components/history/cart/cart.component';
+import { CheckoutComponent } from './components/history/checkout/checkout.component';
 
 const routes: Routes = [
   // {
@@ -70,7 +72,7 @@ const routes: Routes = [
     path: 'register',
     component: RegisterComponent
   },
-  
+
 
   // Pages with Layout
   {
@@ -82,10 +84,26 @@ const routes: Routes = [
       { path: '', component: DetailUserComponent},
 
       // Pokémon List
-      { path: 'pokemon', component: PokemonListComponent },
+      // { path: 'pokemon', component: PokemonListComponent },
+
+      { path: 'pokemon',
+        loadChildren: () =>
+          import("./components/pokemon/pokemon.module").then(
+            (m) => m.PokemonModule
+          )
+        },
+        {
+          path: 'cart',
+          component: CartComponent
+        },
+        {
+          path: 'checkout',
+          component: CheckoutComponent
+        },
+
 
       // Pokémon Details
-      { path: 'pokemon-detail/:name', component: PokemonMoreDetailComponent },
+      // { path: 'pokemon-detail/:name', component: PokemonMoreDetailComponent },
 
       // Edit Form Submission
       {

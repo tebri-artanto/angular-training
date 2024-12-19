@@ -1,0 +1,107 @@
+
+<div class=" mx-auto p-6 w-full">
+  <div class="bg-gray-600 rounded-lg shadow-lg p-6 w-full">
+    <div class="flex justify-between items-center mb-6">
+
+    <form [formGroup]="buyForm" (ngSubmit)="onSubmit()">
+      <span class="p-text-secondary block mb-8"></span>
+      <div class="flex items-center gap-4 mb-4">
+        <label for="firstName" class="font-semibold w-24">First Name</label>
+        <input
+          pInputText
+          id="firstName"
+          class="flex-auto"
+          autocomplete="off"
+          formControlName="firstName" />
+      </div>
+      <div class="flex items-center gap-4 mb-4">
+        <label for="lastName" class="font-semibold w-24">Last Name</label>
+        <input
+          pInputText
+          id="lastName"
+          class="flex-auto"
+          autocomplete="on"
+          formControlName="lastName" />
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="email" class="font-semibold w-24">Email</label>
+        <input
+          pInputText
+          id="email"
+          class="flex-auto"
+          autocomplete="on"
+          formControlName="email" />
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="address" class="font-semibold w-24">Address</label>
+        <textarea
+          rows="5"
+          cols="30"
+          pTextarea
+          formControlName="address"></textarea>
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="phoneNumber" class="font-semibold w-24">Phone Number</label>
+        <p-inputgroup>
+          <p-inputgroup-addon>
+            <select
+          [(ngModel)]="selectedCode"
+          placeholder="Select Option"
+          formControlName="phoneCountryCode">
+          <option *ngFor="let option of phoneCode" [value]="option.code">{{ option.code }}</option>
+        </select>
+          </p-inputgroup-addon>
+          <input
+            pInputText
+            id="phone"
+            class="flex-auto"
+            autocomplete="on"
+            formControlName="phone"
+            placeholder="Phone" />
+        </p-inputgroup>
+      </div>
+      <div class="flex items-center gap-4 mb-8">
+        <label for="option" class="font-semibold w-24">Option</label>
+        <select
+          [(ngModel)]="selectedOption"
+          placeholder="Select Option"
+          formControlName="buyOption">
+          <option *ngFor="let option of buyOption" [value]="option.value">{{ option.label }}</option>
+        </select>
+      </div>
+      <div>
+        <h1>Pokemon to Purchase</h1>
+        <ng-container *ngFor="let evolution of pokemonEvolutions; let i = index">
+          <div *ngIf="getOption() === 'all'" class="text-center">
+            <p-card
+              [header]="evolution.name"
+              styleClass="w-15rem cursor-pointer hover:surface-hover transition-all">
+              <ng-template pTemplate="header">
+                <img
+                  *ngIf="evolution.image"
+                  [src]="evolution.image"
+                  [alt]="evolution.name"
+                  class="w-20" />
+              </ng-template>
+              <p class="text-center capitalize">{{ evolution.name }}</p>
+            </p-card>
+
+            <!-- Evolution Arrow -->
+            <div *ngIf="i < pokemonEvolutions.length - 1" class="my-3">
+              <i class="pi pi-arrow-down text-2xl text-color-secondary"></i>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="flex justify-end gap-2">
+        <p-button
+          label="Cancel"
+          severity="secondary"
+          (click)="cancel.emit()" />
+        <p-button label="Save" (click)="visible = false" type="submit" (onClick)="onSubmit()"  />
+      </div>
+    </form>
+    
+</div>
+</div>
+</div>

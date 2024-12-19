@@ -35,7 +35,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 
-
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
@@ -54,13 +53,20 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { environment } from '../enviroments/environment';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { PokemonService } from './services/pokemon.service';
+import { RealtimeDatabaseService } from './services/realtime-database.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { cartReducer } from './state/cart/cart.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { CartComponent } from './components/history/cart/cart.component';
+import { HistoryModule } from './components/history/history.module';
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, LayoutComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    PokemonModule,
     CommonModule,
     RouterOutlet,
     InputTextModule,
@@ -86,12 +92,26 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     TableModule,
     ConfirmDialogModule,
     MenubarModule,
-    AuthModule
-
-
+    AuthModule,
+    HistoryModule,
+    StoreModule.forRoot(
+      { cart: cartReducer },
+      {
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictActionImmutability: true,
+        },
+      }
+    ),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25 })
   ],
   providers: [
+    PokemonService,
+    MessageService,
+    RealtimeDatabaseService,
     ConfirmationService,
+
     provideHttpClient(withFetch()),
     provideClientHydration(),
     provideZoneChangeDetection({ eventCoalescing: true }),
