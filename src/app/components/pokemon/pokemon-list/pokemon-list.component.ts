@@ -19,7 +19,7 @@ export class PokemonListComponent implements OnInit, OnChanges, OnDestroy {
   selectedElement: string = '';
   elements: string[] = ['fire', 'water', 'grass', 'electric', 'ice', 'rock'];
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 12;
   totalPages: number = 0;
 
   constructor(private pokemonService: PokemonService) {
@@ -40,7 +40,7 @@ export class PokemonListComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   async fetchPokemon() {
-    const rawPokemonList = await this.pokemonService.getPokemonList(150); // Fetch first 150 Pokémon
+    const rawPokemonList = await this.pokemonService.getPokemonList(500); // Fetch first 150 Pokémon
     this.pokemonList = await Promise.all(
       rawPokemonList.map(async (pokemon: any) => {
         const details = await this.pokemonService.getPokemonDetails(

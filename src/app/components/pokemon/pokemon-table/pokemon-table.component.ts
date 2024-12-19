@@ -19,12 +19,12 @@ export class PokemonTableComponent implements OnInit {
     private messageService: MessageService,
     private router: Router, private confirmationService: ConfirmationService) {}
 
-  async ngOnInit() {
-    this.getPokemonData();
+  async ngOnInit(): Promise<void>  {
+    await this.getHistoryData();
 
   }
 
-  async getPokemonData() {
+  async getHistoryData(): Promise<void> {
     try {
       const data = await this.realtimeDatabaseService.getFormSubmissions();
     console.log(data)
@@ -39,8 +39,10 @@ export class PokemonTableComponent implements OnInit {
   }
 
   editHistory(id: string) {
-    this.router.navigate(['/editHistory', id]);
+    this.router.navigate(['/edit-form-submission', id]);
   }
+
+
 
   async deleteHistory(id: string) {
     const response = await this.realtimeDatabaseService.deleteFormSubmission(id);
@@ -87,33 +89,21 @@ confirm(id: string) {
   });
 }
 
-confirmDelete(event: Event, id: string) {
-  this.confirmationService.confirm({
-      target: event.target as EventTarget,
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      // icon: 'pi pi-info-circle',
-      accept: () => this.onDeleteConfirmed(id),
-      reject: () => this.onDeleteRejected()
-  });
-}
+
 
 onSaveConfirmed(id: string) {
   // Perform save logic
   console.log('Save confirmed');
 }
 
-onSaveRejected() {
-  // Handle save cancellation
-  console.log('Save cancelled');
-}
+
 
 onDeleteConfirmed(id: string) {
   console.log(id);
   const response = this.realtimeDatabaseService.deleteFormSubmission(id);
             console.log(response);
               console.log('Delete confirmed');
-              this.getPokemonData();
+              this.getHistoryData();
               return;
 }
 

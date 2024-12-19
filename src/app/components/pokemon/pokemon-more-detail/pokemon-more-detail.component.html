@@ -1,5 +1,6 @@
 <div class="surface-section px-4 py-8">
-  <app-buy-pokemon *ngIf="selectedBuy" [pokemon]="selectedBuy" [pokemonEvolutions]="pokemonEvolutions"></app-buy-pokemon>
+  <p-toast />
+  <!-- <app-buy-pokemon *ngIf="selectedBuy" [pokemon]="selectedBuy" [pokemonEvolutions]="pokemonEvolutions" (cancel)="closeModal()" (confirm)="succesToast()"></app-buy-pokemon> -->
   <div class="card">
     <p-card *ngIf="pokemon" styleClass="w-full max-w-screen-md mx-auto">
       <!-- Pokemon Header -->

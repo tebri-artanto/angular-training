@@ -1,3 +1,4 @@
+import { AuthModule } from './components/auth/auth.module';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -32,6 +33,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { MenubarModule } from 'primeng/menubar';
 
 
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
@@ -43,11 +45,18 @@ import { MessageModule } from 'primeng/message';
 import { CommonModule } from '@angular/common';
 import { PokemonModule } from './components/pokemon/pokemon.module';
 import { ProductModule } from './components/product/product.module';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { HeaderComponent } from './components/header/header.component';
+import { LayoutComponent } from './components/layout/layout.component';
+
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { environment } from '../enviroments/environment';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent, LayoutComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -76,14 +85,19 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     DrawerModule,
     TableModule,
     ConfirmDialogModule,
+    MenubarModule,
+    AuthModule
 
 
   ],
   providers: [
     ConfirmationService,
-    provideHttpClient(),
+    provideHttpClient(withFetch()),
     provideClientHydration(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {

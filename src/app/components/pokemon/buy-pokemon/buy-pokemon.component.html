@@ -214,7 +214,7 @@
         <p-button
           label="Cancel"
           severity="secondary"
-          (click)="visible = false" />
+          (click)="cancel.emit()" />
         <p-button label="Save" (click)="visible = false" type="submit" (onClick)="onSubmit()"  />
       </div>
     </form>

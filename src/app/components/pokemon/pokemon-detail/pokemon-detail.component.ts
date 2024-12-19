@@ -26,7 +26,7 @@ export class PokemonDetailComponent implements OnInit {
   async selectPokemon(name: string) {
     console.log(name);
     // this.selectedPokemon = await this.pokemonService.getPokemonDetails(url);
-    this.router.navigate(['/moredetail', name]);
+    this.router.navigate(['/pokemon-detail', name]);
     console.log(this.selectedPokemon);
   }
 

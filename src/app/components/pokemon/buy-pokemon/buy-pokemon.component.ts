@@ -1,5 +1,5 @@
 import { MessageService } from 'primeng/api';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { PokemonService } from '../../../services/pokemon.service';
 import { RealtimeDatabaseService } from '../../../services/realtime-database.service';
+import { Router } from '@angular/router';
 
 interface PokemonEvolution {
   name: string;
@@ -24,6 +25,8 @@ interface PokemonEvolution {
 export class BuyPokemonComponent implements OnInit {
   @Input() pokemon: any = null;
   @Input() pokemonEvolutions: PokemonEvolution[] = [];
+  @Output() cancel = new EventEmitter<void>();
+  @Output() confirm = new EventEmitter<void>();
 
   selectedOption: string = '';
   visible: boolean = false;
@@ -45,7 +48,8 @@ export class BuyPokemonComponent implements OnInit {
     private fb: FormBuilder,
     private pokemonService: PokemonService,
     private messageService: MessageService,
-    private realtimeDatabase: RealtimeDatabaseService
+    private realtimeDatabase: RealtimeDatabaseService,
+    private route: Router
   ) {}
 
   async loadPokemonDetails(name: string): Promise<void> {
@@ -87,6 +91,9 @@ export class BuyPokemonComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
+  hideDialog() {
+    this.visible = false;
+  }
   buyForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
@@ -97,37 +104,74 @@ export class BuyPokemonComponent implements OnInit {
     buyOption: new FormControl('', [Validators.required]),
   });
 
-  onSubmit() {
-
+  async onSubmit(): Promise<void> {
     if (this.buyForm.invalid) {
       this.buyForm.markAllAsTouched();
       return;
     }
     console.log('Form Data:', this.buyForm.value);
-    // if (this.buyForm.valid) {
-    console.log('Form Data:', this.buyForm.value);
-    console.log(this.selectedOption);
-    if (this.selectedOption === 'one') {
-      const payload = {
-        ...this.buyForm.value,
-        pokemonToBuy: [this.pokemon.name]
-      };
-      console.log(payload);
-      console.log(this.buyForm);
-      const response = this.realtimeDatabase.saveFormSubmission(payload);
-      console.log(response);
-    } else if (this.selectedOption === 'all') {
-      const payload = {
-        ...this.buyForm.value,
-        pokemonToBuy: this.pokemonChain.map((i: any) => i.name),
-      };
-      console.log(payload);
-      const response = this.realtimeDatabase.saveFormSubmission(payload);
-      console.log(response);
-    }
 
-    // }
+    try {
+      console.log('Form Data:', this.buyForm.value);
+      console.log(this.selectedOption);
+      if (this.selectedOption === 'one') {
+        const payload = {
+          ...this.buyForm.value,
+          pokemonToBuy: [this.pokemon.name]
+        };
+        console.log(payload);
+        console.log(this.buyForm);
+        const response = await this.realtimeDatabase.saveFormSubmission(payload);
+        console.log(response);
+      } else if (this.selectedOption === 'all') {
+        const payload = {
+          ...this.buyForm.value,
+          pokemonToBuy: this.pokemonChain.map((i: any) => i.name),
+        };
+        console.log(payload);
+        const response = await this.realtimeDatabase.saveFormSubmission(payload);
+
+        console.log(response);
+        this.confirm.emit();
+        // this.route.navigate(['/submission'])
+      }
+    } catch (error) {
+      console.error('Error saving form submission:', error);
+    }
   }
+
+
+  // onSubmit() {
+
+  //   if (this.buyForm.invalid) {
+  //     this.buyForm.markAllAsTouched();
+  //     return;
+  //   }
+  //   console.log('Form Data:', this.buyForm.value);
+  //   // if (this.buyForm.valid) {
+  //   console.log('Form Data:', this.buyForm.value);
+  //   console.log(this.selectedOption);
+  //   if (this.selectedOption === 'one') {
+  //     const payload = {
+  //       ...this.buyForm.value,
+  //       pokemonToBuy: [this.pokemon.name]
+  //     };
+  //     console.log(payload);
+  //     console.log(this.buyForm);
+  //     const response = this.realtimeDatabase.saveFormSubmission(payload);
+  //     console.log(response);
+  //   } else if (this.selectedOption === 'all') {
+  //     const payload = {
+  //       ...this.buyForm.value,
+  //       pokemonToBuy: this.pokemonChain.map((i: any) => i.name),
+  //     };
+  //     console.log(payload);
+  //     const response = this.realtimeDatabase.saveFormSubmission(payload);
+  //     console.log(response);
+  //   }
+
+  //   // }
+  // }
 }
 
 interface PhoneCode {

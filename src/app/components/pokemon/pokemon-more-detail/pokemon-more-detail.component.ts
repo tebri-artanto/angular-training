@@ -64,7 +64,7 @@ export class PokemonMoreDetailComponent implements OnInit {
   }
 
   navigateToEvolution(name: string) {
-    this.router.navigate(['/moredetail', name]);
+    this.router.navigate(['/pokemon-detail', name]);
   }
 
   playAudio() {

@@ -1,4 +1,4 @@
-<div *ngIf="pokemon" class="container rounded-lg shadow-lg mt-10">
+<!-- <div *ngIf="pokemon" class="container rounded-lg shadow-lg mt-10">
 
   <div class="bg-slate-700 p-2 text-center rounded-sm">
     <h1 class="text-3xl font-bold text-white capitalize pt-3">
@@ -12,4 +12,32 @@
     <p-button label="More Detail" (click)="selectPokemon(pokemon.name)" class="px-4 py-2text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed"></p-button>
   </div>
 
+</div> -->
+
+<div class="lg:col-span-1" *ngIf="pokemon">
+  <div class="sticky top-4">
+    <p-card styleClass="shadow-lg">
+      <ng-template pTemplate="header">
+        <div class="bg-slate-700 p-4 text-center rounded-t-lg">
+          <h1 class="text-3xl font-bold text-white capitalize">
+            {{ pokemon.name }}
+          </h1>
+        </div>
+      </ng-template>
+
+      <div class="text-center">
+        <img
+          [src]="pokemon.sprites.front_default"
+          [alt]="pokemon.name"
+          class="mx-auto w-24 h-24 mb-4"
+        >
+        <p-button
+          label="More Details"
+          icon="pi pi-info-circle"
+          (onClick)="selectPokemon(pokemon.name)"
+          styleClass="p-button-raised">
+        </p-button>
+      </div>
+    </p-card>
+  </div>
 </div>

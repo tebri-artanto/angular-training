@@ -7,9 +7,7 @@ import { PrimeNG } from 'primeng/config';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-// export class AppComponent {
-//   title = 'angular-training';
-// }
+
 
 
 export class AppComponent {
